@@ -20,6 +20,9 @@ jobs:
       matrix:
         tag: ['12', '14', '15', '16']
     steps:
+      - name: Set the suffix value
+        run: |
+          echo "suffix=nodejs" >> $GITHUB_ENV
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
       # https://github.com/docker/setup-qemu-action
@@ -41,9 +44,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: nodejs/
-          file: nodejs/${{ matrix.tag }}/Dockerfile
+          context: ${{ env.suffix }}/
+          file: ${{ env.suffix }}/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           # name:tag
-          tags: ${{ github.repository_owner }}/pterodactyl:nodejs_${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
