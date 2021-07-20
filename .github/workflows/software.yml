@@ -1,5 +1,5 @@
 # change name here
-name: build and push installers images
+name: build and push software images
 
 on:
   schedule:
@@ -9,17 +9,18 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - installers/*/Dockerfile
+      - software/*/Dockerfile
+      - software/*/entrypoint
 
 jobs:
   docker:
     env:
-      suffix: installers
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}
+      suffix: software
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['debian', 'alpine']
+        tag: ['mariadb', 'redis6']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
@@ -48,7 +49,7 @@ jobs:
           file: ${{ env.suffix }}/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:${{ matrix.tag }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ env.created }}
