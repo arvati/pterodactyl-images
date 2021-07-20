@@ -28,10 +28,12 @@ ARG 	TARGETVARIANT
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
-RUN     apk add --update --no-cache ca-certificates curl ffmpeg g++ gcc git openssl sqlite tar tzdata \
+RUN     apk add --update --no-cache ca-certificates \
+			curl ffmpeg g++ gcc git openssl sqlite tar tzdata \
 	    	&& adduser -D -h /home/container container
 USER    container
-ENV     USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+ENV     USER=container HOME=/home/container \
+			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/ash", "/entrypoint.sh" ]

@@ -30,10 +30,12 @@ LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-i
 LABEL   org.opencontainers.image.licenses=MIT
 ENV     DEBIAN_FRONTEND=noninteractive
 RUN     apt update && apt upgrade -y \
-            && apt install -y curl ca-certificates openssl git tar sqlite fontconfig tzdata iproute2 \
+            && apt install -y curl ca-certificates \
+            openssl git tar sqlite fontconfig tzdata iproute2 \
             && useradd -d /home/container -m container
 USER    container
-ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
+            PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/bash", "/entrypoint.sh" ]
