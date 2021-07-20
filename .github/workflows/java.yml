@@ -11,12 +11,14 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - ${group}/*/Dockerfile
-      - ${group}/entrypoint.sh
+      - java/*/Dockerfile
+      - java/entrypoint.sh
 
 jobs:
   docker:
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${group}_${{ matrix.tag }}
+    env:
+      group: java
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ workflow.env.group }}_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
