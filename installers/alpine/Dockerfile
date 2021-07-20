@@ -25,3 +25,4 @@ LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
 RUN     apk add --update --no-cache ca-certificates curl git jq wget
+ENV     PLATFORM=$TARGETPLATFORM

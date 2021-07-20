@@ -27,4 +27,4 @@ LABEL   org.opencontainers.image.licenses=MIT
 ENV     DEBIAN_FRONTEND=noninteractive
 RUN     apt update && apt upgrade -y \
 		    && apt -y --no-install-recommends install ca-certificates curl git jq wget
-ENV     DEBIAN_FRONTEND=dialog
+ENV     DEBIAN_FRONTEND=dialog PLATFORM=$TARGETPLATFORM
