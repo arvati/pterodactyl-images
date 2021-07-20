@@ -20,23 +20,18 @@
 # SOFTWARE.
 #
 
-FROM    adoptopenjdk/openjdk8:debianslim-jre
+ARG     VERSION=16
+FROM    node:$VERSION-alpine
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
-ENV     DEBIAN_FRONTEND=noninteractive
-RUN     apt update && apt upgrade -y \
-            && apt install -y curl ca-certificates openssl git tar sqlite fontconfig tzdata iproute2 \
-            && useradd -d /home/container -m container
+RUN     apk add --update --no-cache ca-certificates curl ffmpeg git openssl sqlite tar tzdata \
+	    	&& adduser -D -h /home/container container
 USER    container
-ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+ENV     USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
-CMD     [ "/bin/bash", "/entrypoint.sh" ]
-
- 
-
- 
+CMD     [ "/bin/ash", "/entrypoint.sh" ]
