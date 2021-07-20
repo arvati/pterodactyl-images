@@ -1,7 +1,7 @@
 # change name here
 name: build and push ${{ env.group }} images
 env:
-  group: nodejs
+  group: installers
 
 on:
   schedule:
@@ -12,7 +12,6 @@ on:
     paths:
       # path to listen
       - ${{ env.group }}/*/Dockerfile
-      - ${{ env.group }}/entrypoint.sh
 
 jobs:
   docker:
@@ -20,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['12', '14', '15', '16']
+        tag: ['debian', 'alpine']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
@@ -43,7 +42,7 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: ${{ env.group }}/
+          context: ${{ env.group }}/${{ matrix.tag }}/
           file: ${{ env.group }}/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
