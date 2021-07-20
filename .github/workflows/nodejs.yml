@@ -1,5 +1,5 @@
 # change name here
-name: build and push ${{ env.group }} images
+name: build and push nodejs images
 env:
   group: nodejs
 

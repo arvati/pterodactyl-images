@@ -1,7 +1,7 @@
 # change name here
-name: build and push installers images
+name: build and push java images
 env:
-  group: installers
+  group: java
 
 on:
   schedule:
@@ -12,6 +12,7 @@ on:
     paths:
       # path to listen
       - ${{ env.group }}/*/Dockerfile
+      - ${{ env.group }}/entrypoint.sh
 
 jobs:
   docker:
@@ -19,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['debian', 'alpine']
+        tag: ['8', '11', '16']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
@@ -42,7 +43,7 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: ${{ env.group }}/${{ matrix.tag }}/
+          context: ${{ env.group }}/
           file: ${{ env.group }}/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
