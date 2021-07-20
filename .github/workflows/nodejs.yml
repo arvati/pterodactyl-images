@@ -16,7 +16,7 @@ jobs:
   docker:
     env:
       suffix: nodejs
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:nodejs_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
