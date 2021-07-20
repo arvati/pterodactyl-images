@@ -1,7 +1,5 @@
 # change name here
 name: build and push installers images
-env:
-  group: installers
 
 on:
   schedule:
@@ -11,11 +9,11 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - ${{ env.group }}/*/Dockerfile
+      - installers/*/Dockerfile
 
 jobs:
   docker:
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ env.group }}_${{ matrix.tag }}
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -42,9 +40,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: ${{ env.group }}/${{ matrix.tag }}/
-          file: ${{ env.group }}/${{ matrix.tag }}/Dockerfile
+          context: installers/${{ matrix.tag }}/
+          file: installers/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           # name:tag
-          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.group }}_${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}

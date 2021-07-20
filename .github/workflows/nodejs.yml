@@ -1,7 +1,5 @@
 # change name here
 name: build and push nodejs images
-env:
-  group: nodejs
 
 on:
   schedule:
@@ -11,12 +9,12 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - ${{ env.group }}/*/Dockerfile
-      - ${{ env.group }}/entrypoint.sh
+      - nodejs/*/Dockerfile
+      - nodejs/entrypoint.sh
 
 jobs:
   docker:
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ env.group }}_${{ matrix.tag }}
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:nodejs_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -43,9 +41,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: ${{ env.group }}/
-          file: ${{ env.group }}/${{ matrix.tag }}/Dockerfile
+          context: nodejs/
+          file: nodejs/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           # name:tag
-          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.group }}_${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:nodejs_${{ matrix.tag }}
