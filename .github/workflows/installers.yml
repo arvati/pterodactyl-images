@@ -13,6 +13,8 @@ on:
 
 jobs:
   docker:
+    env:
+      suffix: installers
     name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
@@ -40,9 +42,9 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           # path to source
-          context: installers/${{ matrix.tag }}/
-          file: installers/${{ matrix.tag }}/Dockerfile
+          context: ${{ env.suffix }}/${{ matrix.tag }}/
+          file: ${{ env.suffix }}/${{ matrix.tag }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           # name:tag
-          tags: ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
