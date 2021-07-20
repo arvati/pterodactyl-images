@@ -1,5 +1,5 @@
 # change name here
-name: build and push software images
+name: build and push redis images
 
 on:
   schedule:
@@ -9,18 +9,18 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - software/*/Dockerfile
-      - software/*/entrypoint
+      - software/redis/Dockerfile
+      - software/redis/entrypoint.sh
 
 jobs:
   docker:
     env:
-      suffix: software
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ matrix.tag }}
+      suffix: redis
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:redis_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['mariadb', 'redis6']
+        tag: ['5', '6']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
@@ -45,11 +45,13 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ${{ env.suffix }}/${{ matrix.tag }}/
-          file: ${{ env.suffix }}/${{ matrix.tag }}/Dockerfile
+          build-args: |
+            VERSION=${{ matrix.tag }}
+          context: software/${{ env.suffix }}/
+          file: software/${{ env.suffix }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ github.repository_owner }}/pterodactyl:${{ matrix.tag }}
+          tags: ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.created=${{ env.created }}
