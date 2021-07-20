@@ -14,15 +14,14 @@ on:
 
 jobs:
   docker:
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:nodejs_${{ matrix.tag }}
+    env:
+      suffix: nodejs
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         tag: ['12', '14', '15', '16']
     steps:
-      - name: Set the suffix value
-        run: |
-          echo "suffix=nodejs" >> $GITHUB_ENV
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
       # https://github.com/docker/setup-qemu-action
