@@ -34,7 +34,7 @@ export INTERNAL_IP
 cd /home/container || exit 1
 
 # Print Mysql version
-printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mmysql version\n"
+printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mmysql --version\n"
 mysql --version
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell

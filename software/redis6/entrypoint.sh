@@ -34,7 +34,7 @@ export INTERNAL_IP
 cd /home/container || exit 1
 
 # Print Redis version
-printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mredis version\n"
+printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mredis-server --version\n"
 redis-server --version
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
