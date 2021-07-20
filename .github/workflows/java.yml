@@ -18,7 +18,7 @@ jobs:
   docker:
     env:
       group: java
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ workflow.env.group }}_${{ matrix.tag }}
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:${{ env.group }}_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
