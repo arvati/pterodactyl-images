@@ -15,7 +15,7 @@ on:
 jobs:
   docker:
     env:
-      suffix: deian_nodejs
+      suffix: debian_nodejs
     name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:debian_nodejs_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
