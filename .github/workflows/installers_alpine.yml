@@ -3,6 +3,8 @@
 name: build installers:alpine image
 
 on:
+  schedule:
+    - cron: "0 3 * * 0"
   push:
     branches: [ main ]
     paths:
