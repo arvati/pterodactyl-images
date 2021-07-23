@@ -35,7 +35,7 @@ cd /home/container || exit 1
 
 # More startup option
 if [ -e /home/container/.profile ]; then
-    (source /home/container/.profile)
+    source /home/container/.profile
 fi
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
