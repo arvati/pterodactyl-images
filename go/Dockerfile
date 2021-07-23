@@ -32,8 +32,7 @@ RUN     apk add --update --no-cache ca-certificates curl ffmpeg git openssl sqli
 	    	&& adduser -D -h /home/container container
 USER    container
 ENV     USER=container HOME=/home/container \
-			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
-			ENV=/home/container/.profile
+			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/ash", "/entrypoint.sh" ]

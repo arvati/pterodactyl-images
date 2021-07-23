@@ -34,7 +34,7 @@ export INTERNAL_IP
 cd $HOME || exit 1
 
 # Set startup script file
-if [ -e $HOME/.profile ] && [ -z "$ENV" ]; then
+if [ -e $HOME/.profile ]; then
     source $HOME/.profile
 fi
 

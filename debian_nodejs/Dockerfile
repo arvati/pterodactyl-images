@@ -36,8 +36,7 @@ RUN     apt update && apt upgrade -y \
             && useradd -d /home/container -m container
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
-			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
-            ENV=/home/container/.profile
+			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/bash", "/entrypoint.sh" ]
