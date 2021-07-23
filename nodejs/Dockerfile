@@ -33,7 +33,8 @@ RUN     apk add --update --no-cache ca-certificates \
 	    	&& adduser -D -h /home/container container
 USER    container
 ENV     USER=container HOME=/home/container \
-			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
+			ENV=/home/container/.profile
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/ash", "/entrypoint.sh" ]

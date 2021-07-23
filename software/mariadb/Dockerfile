@@ -32,7 +32,9 @@ ENV     DEBIAN_FRONTEND noninteractive
 RUN     apt update -y && apt install -y netcat \
             && useradd -d /home/container -m container -s /bin/bash
 USER        container
-ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
+            PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
+            ENV=/home/container/.profile
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     ["/bin/bash", "/entrypoint.sh"]

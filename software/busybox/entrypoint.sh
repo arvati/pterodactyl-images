@@ -31,18 +31,19 @@ INTERNAL_IP=$(ip route get 1 | awk '{print $NF;exit}')
 export INTERNAL_IP
 
 # Switch to the container's working directory
-cd /home/container || exit 1
+cd $HOME || exit 1
 
-# Only when not ENV="/home/container/.profile" in Dockerfile
-#if [ -e /home/container/.profile ]; then
-#    source /home/container/.profile
-#fi
+# Set startup script file
+if [ -e $HOME/.profile ] && [ -z "$ENV" ]; then
+    source $HOME/.profile
+fi
 
+# Include ./local/bin to path
 if [ -d "$HOME/.local/bin" ] ; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Set prompt for ash or bash 
+# Set prompt text and color
 export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
