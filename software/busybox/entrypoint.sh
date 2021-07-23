@@ -33,13 +33,17 @@ export INTERNAL_IP
 # Switch to the container's working directory
 cd /home/container || exit 1
 
-# More startup option
+# Only when not ENV="/home/container/.profile" in Dockerfile
 #if [ -e /home/container/.profile ]; then
 #    source /home/container/.profile
 #fi
 
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # Set prompt for ash or bash 
-export PS1='\033[1m\033[33mcontainer@pterodactyl:\w\$ \033[0m'
+export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
 # variable format of "${VARIABLE}" before evaluating the string and automatically
@@ -48,6 +52,6 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 
 # Display the command we're running in the output, and then execute it with the env
 # from the container itself.
-printf "\033[1m\033[33mcontainer@pterodactyl:~$ \033[0m%s\n" "$PARSED"
+printf "\033[1m\033[33mcontainer@pterodactyl:~ \033[0m%s\n" "$PARSED"
 # shellcheck disable=SC2086
 exec env ${PARSED}
