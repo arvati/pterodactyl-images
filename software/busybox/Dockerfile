@@ -30,7 +30,7 @@ LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-i
 LABEL   org.opencontainers.image.licenses=MIT
 RUN     adduser -D -h /home/container container
 USER    container
-ENV     USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+ENV     USER=container HOME=/home/container PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT ENV="/home/container/.profile"
 WORKDIR /home/container
 COPY    ./entrypoint.sh /entrypoint.sh
 CMD     ["/bin/ash", "/entrypoint.sh"]
