@@ -20,8 +20,9 @@
 # SOFTWARE.
 #
 
-ARG     VERSION=16
-FROM    adoptopenjdk/openjdk$VERSION:debianslim-jre
+ARG     VERSION=17
+#FROM    adoptopenjdk/openjdk$VERSION:debianslim-jre
+FROM    eclipse-temurin:$VERSION-jre
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
