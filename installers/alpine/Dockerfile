@@ -27,5 +27,5 @@ ARG 	TARGETVARIANT
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
-RUN     apk add --update --no-cache ca-certificates curl git jq wget
+RUN     apk add --update --no-cache ca-certificates curl git jq wget openssl 
 ENV     PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
