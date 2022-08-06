@@ -87,11 +87,11 @@ echo "INFO: Starting Omada Controller"
 
 if [ "${SHOW_SERVER_LOGS}" = "true" ]
 then
-  gosu omada tail -F -n 0 ${OMADA_DIR}/logs/server.log &
+  gosu container tail -F -n 0 ${OMADA_DIR}/logs/server.log &
 fi
 if [ "${SHOW_MONGODB_LOGS}" = "true" ]
 then
-  gosu omada tail -F -n 0 ${OMADA_DIR}/logs/mongod.log &
+  gosu container tail -F -n 0 ${OMADA_DIR}/logs/mongod.log &
 fi
 
 exec gosu container "${PARSED}"
