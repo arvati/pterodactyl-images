@@ -26,7 +26,7 @@ ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
 ARG     OMADA_VER=5.4.6
-ARG     OMADA_TAR="Omada_SDN_Controller_v${OMADA_VER}_linux_x64.tar.gz"
+ARG     OMADA_TAR="Omada_SDN_Controller_v${OMADA_VER}_Linux_x64.tar.gz"
 ARG     OMADA_URL="https://static.tp-link.com/upload/software/2022/202207/20220729/${OMADA_TAR}"
 
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
@@ -39,9 +39,8 @@ RUN     apt update && apt upgrade -y \
             gosu net-tools tzdata wget mongodb-server-core \
             && useradd -d /home/container -m container
 COPY    ./install.sh /install.sh
-RUN     ["chmod", "+x", "/install.sh"]
-RUN     ["/bin/bash", "/install.sh" ]
-RUN     ["rm", "-f", "/install.sh"]
+RUN     /install.sh &&\
+            rm /install.sh
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
