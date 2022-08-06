@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 # omada controller package installer script for pterodactyl base image

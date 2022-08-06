@@ -93,4 +93,5 @@ if [ "${SHOW_MONGODB_LOGS}" = "true" ]
 then
   gosu omada tail -F -n 0 ${OMADA_DIR}/logs/mongod.log &
 fi
+
 exec gosu container "${PARSED}"

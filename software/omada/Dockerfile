@@ -44,7 +44,9 @@ ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
 WORKDIR /home/container
 EXPOSE  8088 8043 8843 29810/udp 29811 29812 29813 29814
 COPY    ./install.sh ./entrypoint.sh /
-RUN     ["chmod", "+x", "/install.sh", "/entrypoint.sh"]
+#USER    root
+#RUN     ["chmod", "+x", "/install.sh", "/entrypoint.sh"]
+#USER    container
 RUN     /install.sh && rm /install.sh
 CMD     [ "/bin/bash", "/entrypoint.sh" ]
 
