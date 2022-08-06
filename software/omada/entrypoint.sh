@@ -89,11 +89,11 @@ printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0m%s\n" "$PARSED"
 
 echo "INFO: Starting Omada Controller"
 
-if [ "${SHOW_SERVER_LOGS}" = "true" ]
+if [ "${SHOW_SERVER_LOGS}" = "true" ] && [ -f $HOME/logs/server.log ]
 then
   tail -F -n 0 $HOME/logs/server.log &
 fi
-if [ "${SHOW_MONGODB_LOGS}" = "true" ]
+if [ "${SHOW_MONGODB_LOGS}" = "true" ] && [ -f $HOME/logs/mongod.log ]
 then
   tail -F -n 0 $HOME/logs/mongod.log &
 fi
