@@ -44,6 +44,11 @@ if [ -d "$HOME/.local/bin" ] ; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
+# Include bin to path
+if [ -d "$HOME/bin" ] ; then
+    export PATH="$HOME/bin:$PATH"
+fi
+
 # Set prompt text and color
 export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 
@@ -51,7 +56,6 @@ export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mjava -version\n"
 java -version
 
-OMADA_DIR="${HOME:-/home/container}"
 TLS_1_11_ENABLED="${TLS_1_11_ENABLED:-false}"
 SHOW_SERVER_LOGS="${SHOW_SERVER_LOGS:-true}"
 SHOW_MONGODB_LOGS="${SHOW_MONGODB_LOGS:-false}"
@@ -87,11 +91,11 @@ echo "INFO: Starting Omada Controller"
 
 if [ "${SHOW_SERVER_LOGS}" = "true" ]
 then
-  gosu container tail -F -n 0 ${OMADA_DIR}/logs/server.log &
+  tail -F -n 0 $HOME/logs/server.log &
 fi
 if [ "${SHOW_MONGODB_LOGS}" = "true" ]
 then
-  gosu container tail -F -n 0 ${OMADA_DIR}/logs/mongod.log &
+  tail -F -n 0 $HOME/logs/mongod.log &
 fi
 
-exec gosu container "${PARSED}"
+exec env ${PARSED}
