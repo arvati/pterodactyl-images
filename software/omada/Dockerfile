@@ -40,7 +40,8 @@ RUN     apt update && apt upgrade -y \
             && useradd -d /home/container -m container
 COPY    ./install.sh /install.sh
 RUN     ["chmod", "+x", "/install.sh"]
-RUN     /install.sh && rm /install.sh
+RUN     ["/bin/bash", "/install.sh" ]
+RUN     ["rm", "-f", "/install.sh"]
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
