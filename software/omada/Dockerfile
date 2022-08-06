@@ -39,8 +39,8 @@ RUN     apt update && apt upgrade -y \
             gosu net-tools tzdata wget mongodb-server-core \
             && useradd -d /home/container -m container
 COPY    ./install.sh /install.sh
-RUN     /install.sh &&\
-            rm /install.sh
+RUN     ["chmod", "+x", "/install.sh"]
+RUN     /install.sh && rm /install.sh
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
