@@ -38,16 +38,15 @@ RUN     apt update && apt upgrade -y \
             openssl git tar sqlite fontconfig tzdata iproute2 \
             gosu net-tools tzdata wget mongodb-server-core \
             && useradd -d /home/container -m container
+COPY    ./install.sh /install.sh
+RUN     ["chmod", "+x", "/install.sh", "/entrypoint.sh"]
+RUN     /install.sh && rm /install.sh
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
 WORKDIR /home/container
 EXPOSE  8088 8043 8843 29810/udp 29811 29812 29813 29814
-COPY    ./install.sh ./entrypoint.sh /
-USER    root
-RUN     ["chmod", "+x", "/install.sh", "/entrypoint.sh"]
-USER    container
-RUN     /install.sh && rm /install.sh
+COPY    ./entrypoint.sh /entrypoint.sh
 CMD     [ "/bin/bash", "/entrypoint.sh" ]
 
  

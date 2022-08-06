@@ -42,6 +42,7 @@ then
   # create backup
   cd ${OMADA_DIR}
   tar zcvf /omada.tar.gz .
+  chmod -v 1777 /omada.tar.gz
 fi
 
 # echo "**** Cleanup ****"
