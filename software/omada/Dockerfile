@@ -21,7 +21,7 @@
 #
 
 ARG     VERSION=17
-FROM    eclipse-temurin:$VERSION-jre
+FROM    eclipse-temurin:$VERSION-jre-focal
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
