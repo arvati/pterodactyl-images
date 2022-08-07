@@ -68,6 +68,13 @@ then
   chmod -v 1777 /tmp
 fi
 
+# symlink for mongod
+if [ ! -e "${HOME}/bin/mongod" ]
+then
+  ln -sf "$(command -v mongod)" "${HOME}/bin/mongod"
+  #chmod 755 "${HOME}"/bin/*
+fi
+
 # re-enable disabled TLS versions 1.0 & 1.1
 if [ "${TLS_1_11_ENABLED}" = "true" ]
 then
