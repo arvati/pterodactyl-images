@@ -32,8 +32,10 @@ ENV     DEBIAN_FRONTEND=noninteractive
 RUN     apt update && apt upgrade -y \
             && apt install --no-install-recommends -y curl ca-certificates \
             openssl git tar sqlite fontconfig tzdata iproute2 \
-            net-tools tzdata wget mongodb-server-core \
-            && useradd -d /home/container -m container
+            net-tools tzdata wget mongodb-server-core sudo gosu \
+            && useradd -d /home/container -m container \
+            && usermod -aG sudo container \
+            && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
