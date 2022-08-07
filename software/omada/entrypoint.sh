@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 
 #
 # Copyright (c) 2021 Ademar Arvati Filho
@@ -44,44 +44,12 @@ if [ -d "$HOME/.local/bin" ] ; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Include bin to path
-if [ -d "$HOME/bin" ] ; then
-    export PATH="$HOME/bin:$PATH"
-fi
-
 # Set prompt text and color
 export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 
 # Print Java version
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mjava -version\n"
 java -version
-
-TLS_1_11_ENABLED="${TLS_1_11_ENABLED:-false}"
-SHOW_SERVER_LOGS="${SHOW_SERVER_LOGS:-true}"
-SHOW_MONGODB_LOGS="${SHOW_MONGODB_LOGS:-false}"
-
-# validate permissions on /tmp
-TMP_PERMISSIONS="$(stat -c '%a' /tmp)"
-if [ "${TMP_PERMISSIONS}" != "1777" ]
-then
-  echo "WARN: permissions are not set correctly on '/tmp' (${TMP_PERMISSIONS}); setting correct permissions (1777)"
-  chmod -v 1777 /tmp
-fi
-
-# symlink for mongod
-if [ ! -e "${HOME}/bin/mongod" ]
-then
-  ln -sf "$(command -v mongod)" "${HOME}/bin/mongod"
-  #chmod 755 "${HOME}"/bin/*
-fi
-
-# re-enable disabled TLS versions 1.0 & 1.1
-if [ "${TLS_1_11_ENABLED}" = "true" ]
-then
-  echo "INFO: Re-enabling TLS 1.0 & 1.1"
-  # openjdk17
-  sed -i 's#^jdk.tls.disabledAlgorithms=SSLv3, TLSv1, TLSv1.1,#jdk.tls.disabledAlgorithms=SSLv3,#' /etc/java-17-openjdk/security/java.security
-fi
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
 # variable format of "${VARIABLE}" before evaluating the string and automatically
@@ -93,16 +61,5 @@ PARSED=$(echo "${STARTUP}" | sed -e 's/{{/${/g' -e 's/}}/}/g' | eval echo "$(cat
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0m%s\n" "$PARSED"
 # shellcheck disable=SC2086
 #exec env ${PARSED}
-
-echo "INFO: Starting Omada Controller"
-
-if [ "${SHOW_SERVER_LOGS}" = "true" ] && [ -f $HOME/logs/server.log ]
-then
-  tail -F -n 0 $HOME/logs/server.log &
-fi
-if [ "${SHOW_MONGODB_LOGS}" = "true" ] && [ -f $HOME/logs/mongod.log ]
-then
-  tail -F -n 0 $HOME/logs/mongod.log &
-fi
 
 exec env ${PARSED}
