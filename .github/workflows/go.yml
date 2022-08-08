@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['1.14', '1.15', '1.16']
+        tag: ['1.18', '1.19']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2

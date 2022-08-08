@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['5', '6']
+        tag: ['5', '6', '7']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
