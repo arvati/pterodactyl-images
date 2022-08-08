@@ -32,6 +32,7 @@ INTERNAL_IP=$(ip route get 1 | awk '{print $NF;exit}')
 export INTERNAL_IP
 
 # Switch to the container's working directory
+HOME="${HOME:-/home/container}"
 cd $HOME || exit 1
 
 # Set startup script file
@@ -75,6 +76,15 @@ if [ -f "${$SSL_FOLDER}/${SSL_KEY_NAME}" ] && [ -f "${$SSL_FOLDER}/${SSL_CERT_NA
     -out "${OMADA_DIR}/data/keystore/eap.keystore" \
     -passout pass:tplink
   chmod 400 "${OMADA_DIR}/data/keystore/eap.keystore"
+fi
+
+# make sure that the html directory exists
+if [ ! -d "${OMADA_DIR}/data/html" ] && [ -f "${OMADA_DIR}/data-html.tar.gz" ]
+then
+  # missing directory; extract from original
+  echo "INFO: Report HTML directory missing; extracting backup to '${OMADA_DIR}/data/html'"
+  tar zxvf ${OMADA_DIR}/data-html.tar.gz -C ${OMADA_DIR}/data
+  chown -R ${OMADA_USER}:${OMADA_USER} ${OMADA_DIR}/data/html
 fi
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell

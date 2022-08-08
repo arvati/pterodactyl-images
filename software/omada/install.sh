@@ -34,28 +34,6 @@ ln -sf $(which mongod) "${OMADA_DIR}/bin/mongod"
 ln -sf "$(command -v mongod)" "${OMADA_DIR}/bin/mongod"
 chmod 755 "${OMADA_DIR}"/bin/*
 
-echo "
-[Unit]
-Description=Omada Controller
-After=syslog.target network.target remote-fs.target nss-lookup.target
-Before=nginx.service
-
-[Service]
-Type=forking
-User=${OMADA_USER}
-Group=${OMADA_USER}
-WorkingDirectory=${OMADA_DIR}/lib
-ExecStart=/usr/bin/tpeap start
-ExecStop=/usr/bin/tpeap stop
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-" > /etc/systemd/system/tpeap.service
-chmod 664 /etc/systemd/system/tpeap.service
-systemctl daemon-reload
-systemctl enable tpeap
-
 mkdir -p "${OMADA_DIR}/logs" 
 mkdir -p "${OMADA_DIR}/work"
 mkdir -p "${OMADA_DIR}/data/pdf"
