@@ -1,5 +1,5 @@
 # change name here
-name: build and push installers images
+name: build and push software images
 
 on:
   schedule:
@@ -9,17 +9,18 @@ on:
     branches: [ main ]
     paths:
       # path to listen
-      - installers/*/Dockerfile
+      - software/docker/Dockerfile
+      - software/docker/entrypoint.sh
 
 jobs:
   docker:
     env:
-      suffix: installers
-    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:installers_${{ matrix.tag }}
+      suffix: docker
+    name: Build and Push to Docker Hub ${{ github.repository_owner }}/pterodactyl:docker_${{ matrix.tag }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tag: ['busybox', 'debian', 'alpine', 'node_debian', 'node_alpine']
+        tag: ['rootless']
     steps:
       # https://github.com/actions/checkout
       - uses: actions/checkout@v2
@@ -44,8 +45,10 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           builder: ${{ steps.buildx.outputs.name }}
-          context: ${{ env.suffix }}/${{ matrix.tag }}/
-          file: ${{ env.suffix }}/${{ matrix.tag }}/Dockerfile
+          #build-args: |
+          #  VERSION=${{ matrix.tag }}
+          context: software/${{ env.suffix }}/
+          file: software/${{ env.suffix }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ github.repository_owner }}/pterodactyl:${{ env.suffix }}_${{ matrix.tag }}
