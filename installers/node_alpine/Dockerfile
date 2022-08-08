@@ -18,18 +18,14 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-# 
+#
 
-FROM    debian:stable-slim
-#FROM 	debian:bullseye-slim
+FROM    node:lts-alpine
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
-ENV     DEBIAN_FRONTEND=noninteractive
-RUN     apt update && apt upgrade -y \
-		    && apt -y --no-install-recommends install ca-certificates curl git jq wget openssl
-ENV     DEBIAN_FRONTEND=dialog \
-			PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+RUN     apk add --update --no-cache ca-certificates curl git jq wget openssl 
+ENV     PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT

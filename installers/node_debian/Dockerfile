@@ -20,8 +20,7 @@
 # SOFTWARE.
 # 
 
-FROM    debian:stable-slim
-#FROM 	debian:bullseye-slim
+FROM    node:lts-slim
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
