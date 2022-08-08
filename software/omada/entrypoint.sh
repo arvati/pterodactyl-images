@@ -66,12 +66,12 @@ if [ -d "${OMADA_DIR}/bin" ] ; then
     export PATH="${OMADA_DIR}/bin:$PATH"
 fi
 
-if [ -f "${$SSL_FOLDER}/${SSL_KEY_NAME}" ] && [ -f "${$SSL_FOLDER}/${SSL_CERT_NAME}" ]; then
+if [ -f "${SSL_FOLDER}/${SSL_KEY_NAME}" ] && [ -f "${SSL_FOLDER}/${SSL_CERT_NAME}" ]; then
   rm -f "${OMADA_DIR}/data/keystore/eap.keystore"
   openssl pkcs12 -export \
-    -inkey "${$SSL_FOLDER}/${SSL_KEY_NAME}" \
-    -in "${$SSL_FOLDER}/${SSL_CERT_NAME}" \
-    -certfile "${$SSL_FOLDER}/${SSL_CERT_NAME}" \
+    -inkey "${SSL_FOLDER}/${SSL_KEY_NAME}" \
+    -in "${SSL_FOLDER}/${SSL_CERT_NAME}" \
+    -certfile "${SSL_FOLDER}/${SSL_CERT_NAME}" \
     -name eap \
     -out "${OMADA_DIR}/data/keystore/eap.keystore" \
     -passout pass:tplink
