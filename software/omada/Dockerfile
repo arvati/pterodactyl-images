@@ -44,7 +44,7 @@ RUN     /install.sh && rm /install.sh
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
             PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
-            OMADA_USER=container OMADA_DIR=/opt/tplink/EAPController
+            OMADA_USER=container OMADA_DIR=/home/container
 WORKDIR /home/container
 EXPOSE  8088 8043 8843 29810/udp 29811 29812 29813 29814
 COPY    ./entrypoint.sh /entrypoint.sh

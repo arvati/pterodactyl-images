@@ -52,7 +52,7 @@ export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mjava -version\n"
 java -version
 
-OMADA_DIR=${OMADA_DIR:-/opt/tplink/EAPController}
+OMADA_DIR=${OMADA_DIR:-/home/container}
 OMADA_USER=${OMADA_USER:-container}
 
 SSL_CERT_NAME=${SSL_CERT_NAME:-tls.crt}

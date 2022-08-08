@@ -8,7 +8,7 @@ OMADA_TAR="${OMADA_TAR:-}"
 OMADA_URL="${OMADA_URL:-}"
 OMADA_MAJOR_VER="${OMADA_VER%.*.*}"
 OMADA_MAJOR_MINOR_VER="${OMADA_VER%.*}"
-OMADA_DIR="${OMADA_DIR:-/opt/tplink/EAPController}"
+OMADA_DIR="${OMADA_DIR:-/home/container}"
 OMADA_USER="${OMADA_USER:-container}"
 LINK_CMD="/usr/bin/tpeap"
 
