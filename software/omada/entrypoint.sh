@@ -51,6 +51,32 @@ export PS1='\033[1m\033[33mcontainer@pterodactyl:\w \033[0m'
 printf "\033[1m\033[33mcontainer@pterodactyl~ \033[0mjava -version\n"
 java -version
 
+OMADA_DIR="${OMADA_DIR:-/opt/tplink/EAPController}"
+OMADA_USER="${OMADA_USER:-container}"
+
+SSL_CERT_NAME="${SSL_CERT_NAME:-tls.crt}"
+SSL_KEY_NAME="${SSL_KEY_NAME:-tls.key}"
+SSL_FOLDER="${HOME}/cert"
+
+echo "INFO: Starting Omada Controller"
+
+# Include bin to path
+if [ -d "${OMADA_DIR}/bin" ] ; then
+    export PATH="${OMADA_DIR}/bin:$PATH"
+fi
+
+if [ -f "${$SSL_FOLDER}/${SSL_KEY_NAME}" ] && [ -f "${$SSL_FOLDER}/${SSL_CERT_NAME}" ]; then
+  rm -f "${OMADA_DIR}/data/keystore/eap.keystore"
+  openssl pkcs12 -export \
+    -inkey "${$SSL_FOLDER}/${SSL_KEY_NAME}" \
+    -in "${$SSL_FOLDER}/${SSL_CERT_NAME}" \
+    -certfile "${$SSL_FOLDER}/${SSL_CERT_NAME}" \
+    -name eap \
+    -out "${OMADA_DIR}/data/keystore/eap.keystore" \
+    -passout pass:tplink
+  chmod 400 "${OMADA_DIR}/data/keystore/eap.keystore"
+fi
+
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
 # variable format of "${VARIABLE}" before evaluating the string and automatically
 # replacing the values.

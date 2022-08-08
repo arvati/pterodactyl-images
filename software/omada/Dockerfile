@@ -25,6 +25,10 @@ FROM    eclipse-temurin:$VERSION-jre-focal
 ARG 	TARGETPLATFORM
 ARG 	TARGETARCH
 ARG 	TARGETVARIANT
+ARG     OMADA_VER=5.4.6
+ARG     OMADA_TAR="Omada_SDN_Controller_v${OMADA_VER}_Linux_x64.tar.gz"
+ARG     OMADA_URL="https://static.tp-link.com/upload/software/2022/202207/20220729/${OMADA_TAR}"
+
 LABEL   author="Ademar Arvati Filho" maintainer="arvati@hotmail.com"
 LABEL   org.opencontainers.image.source="https://github.com/arvati/pterodactyl-images"
 LABEL   org.opencontainers.image.licenses=MIT
@@ -32,11 +36,15 @@ ENV     DEBIAN_FRONTEND=noninteractive
 RUN     apt update && apt upgrade -y \
             && apt install --no-install-recommends -y curl ca-certificates \
             openssl git tar sqlite fontconfig tzdata iproute2 \
-            net-tools tzdata wget mongodb-server-core \
+            gosu net-tools tzdata wget mongodb-server-core jsvc \
             && useradd -d /home/container -m container
+COPY    ./install.sh /install.sh
+RUN     ["chmod", "+x", "/install.sh"]
+RUN     /install.sh && rm /install.sh
 USER    container
 ENV     DEBIAN_FRONTEND=dialog USER=container HOME=/home/container \
-            PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT
+            PLATFORM=$TARGETPLATFORM ARCH=$TARGETARCH VARIANT=$TARGETVARIANT \
+            OMADA_USER=container OMADA_DIR=/opt/tplink/EAPController
 WORKDIR /home/container
 EXPOSE  8088 8043 8843 29810/udp 29811 29812 29813 29814
 COPY    ./entrypoint.sh /entrypoint.sh

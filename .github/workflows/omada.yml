@@ -11,6 +11,7 @@ on:
       # path to listen
       - software/omada/Dockerfile
       - software/omada/entrypoint.sh
+      - software/omada/install.sh
 
 jobs:
   docker:
